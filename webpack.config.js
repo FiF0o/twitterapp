@@ -48,6 +48,10 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
+  // retrieves external package at runtime - app crashes otherwise
+  externals:[{
+    xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+  }],
 	module: {
 		loaders
 	},
