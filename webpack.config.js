@@ -32,6 +32,17 @@ const extractCSS = new ExtractTextPlugin({
   allChunks: true
 });
 
+loaders.push({
+  include: /\.pug/,
+  test: /\.pug/,
+  exclude: /(node_modules|bower_components)/,
+  use: [
+    {loader: 'raw-loader'},
+    {loader: 'pug-html-loader'}
+    ]
+});
+
+
 module.exports = {
 	entry: {
     // 'react-hot-loader/patch',
@@ -74,7 +85,7 @@ module.exports = {
     extractCSS,
 		new DashboardPlugin(),
 		new HtmlWebpackPlugin({
-			template: './src/template.html',
+			template: './src/views/index.pug',
 			files: {
 				style: ['style.css'],
 				js: [ 'bundle.js'],

@@ -63,11 +63,17 @@
     "html-loader": "0.4.5",
     "html-webpack-plugin": "2.28.0",
     "jquery": "3.1.1",
+    "jsonfile": "2.4.0",
     "node-sass": "4.5.0",
     "nodemon": "1.11.0",
     "path": "0.12.7",
+    "pug": "2.0.0-beta11",
+    "pug-cli": "1.0.0-alpha6",
+    "pug-html-loader": "1.1.1",
+    "raw-loader": "0.5.1",
     "sass-loader": "6.0.2",
     "style-loader": "0.13.1",
+    "webpack-manifest-plugin": "1.1.0",
     "xmlhttprequest": "1.8.0"
   }
 }

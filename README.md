@@ -11,7 +11,7 @@ Proxy runs on node port or `:8889`.
 ### API calls with OAuth2 flow.</br>
 [OAUTH2 flow](https://dev.twitter.com/oauth/reference/post/oauth2/token). Bearer token needed - [Obtain a bearer token](https://dev.twitter.com/oauth/application-only) - to access Twitter API endpoints.</br>
 Proxy handling OAUTH and Twitter API request is running on node port or `:8889`</br>
-`npm run proxy` and its route is `/proxy/twitter`</br></br>
+`npm run proxy` and its route is `/proxy/token`</br></br>
 
 ### Want your own token to extend the app?
 Register to the twitter API website.</br>

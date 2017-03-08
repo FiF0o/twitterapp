@@ -4,29 +4,41 @@
 var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+// var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ManifestPlugin = require('webpack-manifest-plugin');
 
 // not generating css file...
 const extractSass = new ExtractTextPlugin({
-  filename: "[name].[hashchunk].css",
+  filename: "[name].[chunkhash].css",
   disable: process.env.NODE_ENV === "development",
   allChunks: true
-})
+});
 
 loaders.push({
   rules: [{
     test: /\.scss$/,
-    loader: ExtractTextPlugin.extract({
+    loader: extractSass.extract({
       use: [{
         loader: "css-loader"
       }, {
         loader: "sass-loader"
-      }]
+      }],
+      fallback: "style-loader"
     })
   }]
-})
+});
+
+loaders.push({
+  include: /\.pug/,
+  test: /\.pug/,
+  exclude: /(node_modules|bower_components)/,
+  use: [
+    {loader: 'raw-loader'},
+    {loader: 'pug-html-loader'}
+  ]
+});
 
 // ** old **
 // loaders.push({
@@ -41,7 +53,7 @@ loaders.push({
 module.exports = {
   entry: {
     bundle: './src/index.js', // entry point will be named bundle
-    css: './src/sass/main.scss',
+    style: './src/sass/main.scss',
     vendors: ['jquery', 'bootstrap']
 },
 	output: {
@@ -52,6 +64,9 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
+  externals:[{
+    xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+  }],
 	module: {
 		loaders
 	},
@@ -71,24 +86,27 @@ module.exports = {
 			}
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new HtmlWebpackPlugin({
-			template: './src/template.html',
+		/*new HtmlWebpackPlugin({
+			template: './src/views/index.pug',
 			files: {
-				css: ['[name].[chunkhash].css'], // will be css.hashkey.css (entry point)
+				style: ['[name].[chunkhash].css'], // will be css.hashkey.css (entry point)
 				js: [ '[name].[chunkhash].js'] // will be app.hashkey.js & vendor.hashley.js (entry point)
 			}
-		}),
+		}),*/
     // Provides jQuery on global scope can be called using $ or jQuery no need to do scope scope binding
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
       Bootstrap: 'bootstrap'
     }),
-    // should create .css file....
+    // creates CSS file
     extractSass,
     // creates additional bundle containing vendors files as an entry
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendors',
+    }),
+    new ManifestPlugin({
+      fileName: 'build-manifest.json'
     })
 	]
 };
