@@ -9,7 +9,7 @@
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx src || exit 0",
     "dev": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "proxy": "./node_modules/.bin/babel-node proxy"
+    "proxy": "./node_modules/.bin/babel-node app"
   },
   "keywords": [
     "twitter",

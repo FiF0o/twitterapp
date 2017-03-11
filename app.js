@@ -4,29 +4,30 @@
 var Express  = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+
 var twitterAPI = require('./src/twitterAPI');
 import request from './twitterService';
 var token = require('./token');
-import { readFileSync } from 'jsonfile';
 
-var manifestPath = `${process.cwd()}/public/build-manifest.json`;
-var manifest = readFileSync(manifestPath);
+/** routes **/
+var routes = require('./routes/index');
+import home from './routes/home';
+var tweets = require('./routes/tweets');
 
 
 var app = Express();
 var PORT = process.env.PORT || 8889;
 
-var router = Express.Router();
-
 /** Globals **/
 // access_token (bearer token type) for future API requests;
 var BEARER_TOKEN;
-var jsBundle = manifest['bundle.js'];
-var cssBundle = manifest['style.css'];
-var vendorBundle = manifest['vendors.js'];
 
 app.set('views', path.join(__dirname, 'src/views/'));
 app.set('view engine', 'pug');
+app.use((req, res, next) => {
+  console.log(`global MW!`);
+  next();
+});
 app.use(Express.static(path.join(__dirname, 'public/')));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -75,16 +76,10 @@ twitterAPI.GetBearerToken(reqBearer)
 });
 
 
-/**
- ** ROUTES **
- * **/
-router.get('/', (req, res, next) => {
-  res.send('This is the /proxy route\n Go to /proxy/:routes to use the twitter proxy');
-});
-
 /** search endpoint **/
-router.get('/search', (req, res, next) => {
-  console.log(req.query);
+// router.get('/search', (req, res, next) => {
+//   console.log(req.query);
+
 
 
 /*  // from twitter API
@@ -121,16 +116,17 @@ router.get('/search', (req, res, next) => {
     })
     .catch(error => console.log(error));*/
 
-  res.render('index', {jsBundle, cssBundle, vendorBundle});
 
 
 
-});
+  // res.render('tweets', {jsBundle, cssBundle, vendorBundle});
 
 
 
-// tell our app to use its router and /proxy as root route
-app.use('/', router);
+// });
+
+app.use('/', home);
+app.use('/search', tweets);
 
 app.listen(PORT, () => {
   console.log(`Proxy listening on port ${PORT}`);

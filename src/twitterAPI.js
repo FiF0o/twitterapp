@@ -6,7 +6,7 @@ import request from '../twitterService';
  *
  * @constructor
  */
-export const GetBearerToken = (xhrReq) => (
+export const GetBearerToken = xhrReq => (
   // returns a promise fetching the bearer token - access_token
   request(xhrReq)
 );
@@ -16,7 +16,7 @@ export const GetBearerToken = (xhrReq) => (
  * @param qUrl
  * @constructor
  */
-export const GetTweets = (qUrl) => (
+export const GetTweets = qUrl => (
   // new Promise((resolve, reject) => {
   //   // replace with ajax
   //   setTimeout(() => {
