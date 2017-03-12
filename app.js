@@ -4,10 +4,11 @@
 var Express  = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+var session = require('express-session');
 
 var twitterAPI = require('./src/twitterAPI');
-import request from './twitterService';
 var token = require('./token');
+
 
 /** routes **/
 var routes = require('./routes/index');
@@ -15,24 +16,33 @@ import home from './routes/home';
 var tweets = require('./routes/tweets');
 
 
-var app = Express();
-var PORT = process.env.PORT || 8889;
+/** MW **/
+var logErrors = require('./utils/logErrors');
+var notFound = require('./utils/notFound');
+var errorHandler = require('./utils/errorHandler');
+
 
 /** Globals **/
 // access_token (bearer token type) for future API requests;
 var BEARER_TOKEN;
 
+
+var app = Express();
+// app.set('trust proxy', 1) // trust first proxy - no https yet...
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 app.set('views', path.join(__dirname, 'src/views/'));
 app.set('view engine', 'pug');
-app.use((req, res, next) => {
-  console.log(`global MW!`);
-  next();
-});
 app.use(Express.static(path.join(__dirname, 'public/')));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+
 
 /**
  * Required by twitter API encoding tokens
@@ -40,7 +50,6 @@ app.use(bodyParser.json());
  *
  * more about OAUTH2 and Twitter API: https://dev.twitter.com/oauth/reference/post/oauth2/token
  * **/
-
 /* eslint-disable */
 const encodedToken = Buffer.from(`${token.accessToken}:${token.accessTokenSecret}`).toString('base64'); // base64 app token encoding as btoa (browser api) is not supported - needed to the server to consume
 // const encodedToken2 = btoa(encodeURIComponent(`${accessToken}:${accessTokenSecret}`));
@@ -69,65 +78,23 @@ twitterAPI.GetBearerToken(reqBearer)
     const parsedResp = JSON.parse(data);
     // stores bearer token globally for future requests
     BEARER_TOKEN = parsedResp.access_token;
+    // makes token available in the entire app
+    app.set('BEARER_TOKEN', BEARER_TOKEN);
     return BEARER_TOKEN;
   })
   .catch((error) => {
     console.log('err:', error);
 });
 
-
-/** search endpoint **/
-// router.get('/search', (req, res, next) => {
-//   console.log(req.query);
-
-
-
-/*  // from twitter API
-  const baseUrl = 'https://api.twitter.com';
-  const endPoint = '/1.1/search/tweets.json';
-  const qs = req.query;
-  console.log(`BR TOKEN:\n ${BEARER_TOKEN}`);
-  console.log('qs:\n', qs);
-  console.log(`qUrl: \n${baseUrl}${endPoint}`);
-
-  const twitterHeaders = {
-    /!* eslint-disable *!/
-    'Authorization': `Bearer ${BEARER_TOKEN}`,
-    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    'Access-Control-Allow-Origin': '*',
-  };
-  console.log('twitterHeaders:\n', twitterHeaders);
-
-  const reqTwitter = {
-    method: 'GET',
-    url: `${baseUrl}${endPoint}?${qs}`,
-    headers: twitterHeaders,
-    // mode: 'cors',
-    // cache: 'default',
-    // body: `${qs}`,
-  };
-
-  console.log('xhr obj:\n', reqTwitter);
-
-  return request(reqTwitter)
-    .then( data => {
-      console.log(data)
-      res.render('template', )
-    })
-    .catch(error => console.log(error));*/
-
-
-
-
-  // res.render('tweets', {jsBundle, cssBundle, vendorBundle});
-
-
-
-// });
-
 app.use('/', home);
 app.use('/search', tweets);
 
-app.listen(PORT, () => {
-  console.log(`Proxy listening on port ${PORT}`);
-});
+
+// error handling
+app.use(logErrors);
+app.use(notFound);
+app.use(errorHandler);
+
+
+module.exports = app;
+

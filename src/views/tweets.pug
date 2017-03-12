@@ -10,15 +10,16 @@ html(lang='en')
             #app Loading...
             .jumbotron jumbotron
             h1 toto
-            h2=data.foo
             form(action="/", method="get", id="twitter_form")
                 // name required for req.query not to be empty - getting the query object from the form
                 label(for="twitter")
-                    input#twitter(type="search", name="city" placeholder="Search tweets...")
+                    input#twitter(type="search", name="q" placeholder="Search tweets...")
             button(type="submit", form="twitter_form", value="submit") submit
             h2 h2 sdfk;sdfd;fsadfs
             .well
                 h1 I am a h1
+                h2=data.foo
+                h2=data.bat
             // Button trigger modal
             button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal')
                 | Launch demo modal
