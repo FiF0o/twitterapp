@@ -12,7 +12,7 @@ var token = require('./token');
 
 /** routes **/
 var routes = require('./routes/index');
-import home from './routes/home';
+var home = require('./routes/home');
 var tweets = require('./routes/tweets');
 
 

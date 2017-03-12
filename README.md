@@ -1,17 +1,19 @@
 # Twitter app
 
 Static website using the Twitter API to return a tweet feed.</br>
-We are using `/search/tweets` twitter endpoint- [search/tweets endpoint](https://dev.twitter.com/rest/reference/get/search/tweets)</br>
+We are using `/search/tweets` twitter endpoint - [search/tweets endpoint](https://dev.twitter.com/rest/reference/get/search/tweets).</br>
 App opens on port `:8888` when developing.</br>
-Proxy runs on node port or `:8889`.
+Proxy runs on node port or `:8889`.</br></br>
+
+The app is bootstrapped with [create-react-app](https://github.com/facebookincubator/create-react-app).</br>
 
 
 ## Prerequisites
 
 ### API calls with OAuth2 flow.</br>
 [OAUTH2 flow](https://dev.twitter.com/oauth/reference/post/oauth2/token). Bearer token needed - [Obtain a bearer token](https://dev.twitter.com/oauth/application-only) - to access Twitter API endpoints.</br>
-Proxy handling OAUTH and Twitter API request is running on node port or `:8889`</br>
-`npm run proxy` and its route is `/proxy/token`</br></br>
+Proxy handling OAUTH and Twitter API request is running on node port or `:8889`.</br>
+`npm run proxy` and its route is `/search/token`.</br></br>
 
 ### Want your own token to extend the app?
 Register to the twitter API website.</br>
@@ -27,7 +29,7 @@ module.exports = {
 ## Scripts
 `npm run build` to bundle the app.</br>
 `npm run dev` for development mode.</br>
-`npm run lint` to lint your code</br>
+`npm run lint` to lint your code.</br>
 
 
 ## Improvements

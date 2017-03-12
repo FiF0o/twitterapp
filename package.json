@@ -2,14 +2,17 @@
   "name": "twitterapp",
   "version": "1.0.0",
   "description": "app using twitter api",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx src || exit 0",
     "dev": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "proxy": "./node_modules/.bin/babel-node server"
+    "app": "./node_modules/.bin/babel-node server",
+    "now-build": "npm run build",
+    "now-start": "node app.js",
+    "deploy": "./node_modules/.bin/now"
   },
   "keywords": [
     "twitter",
@@ -69,6 +72,7 @@
     "jsonfile": "2.4.0",
     "node-sass": "4.5.0",
     "nodemon": "1.11.0",
+    "now": "4.7.1",
     "path": "0.12.7",
     "pug": "2.0.0-beta11",
     "pug-cli": "1.0.0-alpha6",
