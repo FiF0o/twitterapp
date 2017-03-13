@@ -21,4 +21,5 @@ router.get('/', loadScripts, (req, res, next) => {
   res.render('index', { jsBundle,cssBundle, vendorBundle });
 });
 
+
 module.exports = router;

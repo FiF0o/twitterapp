@@ -21,7 +21,6 @@ var logErrors = require('./utils/logErrors');
 var notFound = require('./utils/notFound');
 var errorHandler = require('./utils/errorHandler');
 
-
 /** Globals **/
 // access_token (bearer token type) for future API requests;
 var BEARER_TOKEN;
@@ -86,8 +85,9 @@ twitterAPI.GetBearerToken(reqBearer)
     console.log('err:', error);
 });
 
+
 app.use('/', home);
-app.use('/search', tweets);
+app.use('/tweets', tweets);
 
 
 // error handling
@@ -97,4 +97,3 @@ app.use(errorHandler);
 
 
 module.exports = app;
-

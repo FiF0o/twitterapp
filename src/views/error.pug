@@ -8,7 +8,11 @@ html(lang='en')
     body
         .container
             h1 0ops!
-            h2=error
+            if(error)
+                h2=error
+            else
+                h2=':('
+                h3='Something went wong!'
         footer
             //script(src=`../${vendorBundle}`, type="text/javascript")
             //script(src=`../${jsBundle}`, type="text/javascript")

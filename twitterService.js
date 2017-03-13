@@ -16,13 +16,16 @@ const request = obj => (
     if (obj.headers) {
       Object.keys(obj.headers).forEach((key) => {
         xhr.setRequestHeader(key, obj.headers[key]);
+        console.log('creationg', xhr)
       });
     }
     xhr.onload = () => {
+      console.log('onload', xhr);
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(xhr.responseText);
       } else {
-        reject(xhr.statusText);
+        // reject(xhr.statusText);
+        reject(xhr.responseText);
       }
     };
     xhr.onerror = () => reject(xhr.statusText);
