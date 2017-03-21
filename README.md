@@ -6,9 +6,11 @@ App runs on node port or `:8889`.</br></br></br>
 Static assets served on port `:8888` if needed.</br>
 
 Dev mode:
-```</br>
+</br>
+```
 `npm run dev`
-```</br>
+```
+</br>
 
 The app is bootstrapped with [create-react-app](https://github.com/facebookincubator/create-react-app).</br>
 
