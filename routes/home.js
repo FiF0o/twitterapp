@@ -14,7 +14,6 @@ const manifest = readFileSync(manifestPath);
 const jsBundle = manifest['bundle.js'];
 const cssBundle = manifest['style.css'];
 const vendorBundle = manifest['vendors.js'];
-const locals = {jsBundle, cssBundle, vendorBundle};
 
 
 router.get('/', loadScripts, (req, res, next) => {

@@ -6,7 +6,6 @@ import url from 'url';
 import { readFileSync } from 'jsonfile';
 
 import request from '../twitterService';
-// import { GetTweets } from '../src/twitterAPI';
 
 
 const manifestPath = `${process.cwd()}/public/build-manifest.json`;
@@ -20,27 +19,21 @@ const vendorBundle = manifest['vendors.js'];
 
 router.get('/', (req, res, next) => {
 
-  // get Twitter token
-  const BEARER_TOKEN = req.app.get('BEARER_TOKEN');
-  const baseUrl = 'https://api.twitter.com';
-  const endPoint = '/1.1/search/tweets.json';
-
   if (req.query.q) {
 
-    // we only want the query string not parsed nor in object format - req.query
+    const BEARER_TOKEN = req.app.get('BEARER_TOKEN');
+    const baseUrl = 'https://api.twitter.com';
+    const endPoint = '/1.1/search/tweets.json';
     const qs = url.format(req.url).replace('/', '');
-
-    // object storing XHR properties - XHR created on Promise request
     const twitterHeaders = {
       /* eslint-disable */
-      'Content-Type': 'application/json',
       'Authorization': `Bearer ${BEARER_TOKEN}`,
-      // 'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      'Access-Control-Allow-Origin': '*',
     };
-
     const reqTwitter = {
       method: 'GET',
-      // https://api.twitter.com/1.1/search/tweets.json?<qsparams>
+      // example for url format - /1.1/statuses/user_timeline.json?count=100&screen_name=twitterapi
       url: `${baseUrl}${endPoint}${qs}`,
       headers: twitterHeaders,
       // mode: 'cors',
@@ -49,19 +42,22 @@ router.get('/', (req, res, next) => {
     };
 
     return request(reqTwitter)
-      .then(data => {
-        console.log(`data resolved:\n${data}\n`);
-        res.render('tweets', {data, jsBundle, cssBundle, vendorBundle});
+      .then( data => {
+        // parse data
+        var tweets = JSON.parse(data)
+        // parses txt data from twitter and getting its statuses array
+        var tweetList = tweets.statuses
+        console.log('tweetList: \n', tweetList)
+        res.render('tweets', { jsBundle, cssBundle, vendorBundle, tweetList })
       })
       .catch(error => {
-        console.log(`eh zebi, err: ${error}`);
-        // res.render('error', { error } );
-        // renders twitter 404 page
-        res.send(error);
-    })
-  }
+        console.log(error)
+        res.render('error', {error})
+      });
 
-  res.render('tweets', { jsBundle, cssBundle, vendorBundle });
+  } else {
+    res.render('tweets', { jsBundle, cssBundle, vendorBundle });
+  }
 
 });
 
