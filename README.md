@@ -19,7 +19,7 @@ The app is bootstrapped with [create-react-app](https://github.com/facebookincub
 
 ### Routes
 - `/` route
-- `/tweet` route
+- `/tweets` route
 
 ### API calls with OAuth2 flow.</br>
 [OAUTH2 flow](https://dev.twitter.com/oauth/reference/post/oauth2/token). Bearer token needed - [Obtain a bearer token](https://dev.twitter.com/oauth/application-only) - to access Twitter API endpoints.</br>
