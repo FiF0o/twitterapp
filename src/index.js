@@ -6,18 +6,15 @@
 
 import $ from 'jquery';
 import Greet from './greet';
-import { GetTweets } from './twitterAPI';
+// import { GetTweets } from './twitterAPI';
 
-GetTweets()
-  .then(data => console.log(data))
-  .catch(error => console.log(error));
+// GetTweets()
+//   .then(data => console.log(data))
+//   .catch(error => console.log(error));
 
 $('#toto').click(() => {
   console.log(this.href);
-  // window.open("")
 });
 
-console.log($('#app'));
-console.log('Hello');
 Greet('You!');
 
