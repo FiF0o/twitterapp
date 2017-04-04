@@ -39,30 +39,66 @@ html(lang='en')
                             h1="not tweets founds :("
 
                 else
+                    h1 Your tweets
                     .row(id="tweet_results")
                         each tweet in tweetList
                             .col-md-6
-                                .row
-                                    .col-md-8
-                                        p=tweet.created_at
-                                        p=tweet.text
-                                        p=tweet.source
+                                .well.well-lg
+                                    section.tweet-card
+                                        .row
+                                            .col-md-7
+                                                h6 tweet
+                                                p=tweet.text
+                                                p=tweet.created_at
+                                                //p=tweet.source
 
-                                    .col-md-4
-                                        div *** HASHTAG ***
-                                            each hashtag in tweet.entities.hashtags
-                                                p=hashtag.text
+                                            .col-md-5
+                                                h6 profile
+                                                div.thumbnail
+                                                    img(src=`${tweet.user.profile_image_url}` alt=`${tweet.user.profile_image_url}` width="48" height="48")
+                                                    h4
+                                                        if(tweet.user.url !== null)
+                                                            a(href=`${tweet.user.url}` target="_blank")=tweet.user.name
+                                                        else
+                                                            span=tweet.user.name
+                                                    div.caption
+                                                        h5
+                                                            span.glyphicon.glyphicon-pencil
+                                                            span &nbsp;
+                                                            span=tweet.user.description
+                                                        h5
+                                                            span.glyphicon.glyphicon-map-marker
+                                                            span &nbsp;
+                                                            span=tweet.user.location
 
-                                        div *** USER ***
-                                            p=tweet.user.name
-                                            p=tweet.user.description
-                                            p=tweet.user.location
-                                            p=tweet.user.url
-                                            p=tweet.user.followers_count
-                                            p=tweet.user.profile_image_url
-                                        div *** FAVOURITES ***
-                                            p=tweet.favorite_count
-                                            p=tweet.retweet_count
+                                                        p
+                                                            span.glyphicon.glyphicon-user
+                                                            span &nbsp;
+                                                            span=tweet.user.followers_count
+
+                                        .row
+                                            .col-md-12
+                                                .row
+                                                    .col-md-6
+                                                        h6 hastags
+                                                        div
+                                                            if(tweet.entities.hashtags.length > 0)
+                                                                each hashtag in tweet.entities.hashtags
+                                                                    span=`#${hashtag.text}`
+                                                                    span &nbsp;
+                                                            else
+                                                                p.disabled no hashtag
+                                                    .col-md-6
+                                                        h6 retweets
+                                                        div
+                                                            span
+                                                                span.glyphicon.glyphicon-star
+                                                                span &nbsp;
+                                                                span=tweet.favorite_count
+                                                            span(style="margin-left: 1em;")
+                                                                span.glyphicon.glyphicon-retweet
+                                                                span &nbsp;
+                                                                span=tweet.retweet_count
 
         footer
             script(src=`../${vendorBundle}`, type="text/javascript")

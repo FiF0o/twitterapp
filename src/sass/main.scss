@@ -1,11 +1,6 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-h1 {
-  color: red;
-}
-
-h2 {
-  color: yellow;
-  font-size: 2em;
+section {
+  word-wrap: break-word;
 }
