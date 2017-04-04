@@ -6,7 +6,7 @@ html(lang='en')
         link(rel="stylesheet", type="text/css", href=`../${cssBundle}`)
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
-        .container
+        section(id="search_tweets")
             // send GET req on /tweets route
             form(action="/tweets", method="get", id="twitter_form")
                 // name required for req.query not to be empty - getting the query object from the form
@@ -14,26 +14,55 @@ html(lang='en')
                     input#twitter(type="search", name="q" placeholder="Search tweets...")
                 label(for="count")
                     select#count(type="select" name="count" class="form-control")
-                        option(value=2) 2
+                        option(value=10) 10
                         option(value=20) 20
+                        option(value=50) 50
             button(type="submit", form="twitter_form", value="submit") submit
 
             // error handling - server side
-            if(error)
-                h1 There was an error
-                h2=error
+            .container
+                if(error)
+                    section(id="error_server")
+                        .row.col-md-12
+                            h1 There was an error
+                            h2=error
 
-            // undefined here so user must search for tweets - no query params
-            if !tweetList
-                h1="search for tweets"
+                // undefined here so user must search for tweets - no query params
+                if !tweetList
+                    section(id="error_query")
+                        .row.col-md-12
+                            h1="search for tweets"
 
-            else if tweetList.length <= 0
-                h1="not tweets founds :("
+                else if tweetList.length <= 0
+                    .row.col-md-12
+                        section(id="error_no_tweets")
+                            h1="not tweets founds :("
 
-            else
-                .div.row
-                    each tweet in tweetList
-                        p=tweet.created_at
+                else
+                    .row(id="tweet_results")
+                        each tweet in tweetList
+                            .col-md-6
+                                .row
+                                    .col-md-8
+                                        p=tweet.created_at
+                                        p=tweet.text
+                                        p=tweet.source
+
+                                    .col-md-4
+                                        div *** HASHTAG ***
+                                            each hashtag in tweet.entities.hashtags
+                                                p=hashtag.text
+
+                                        div *** USER ***
+                                            p=tweet.user.name
+                                            p=tweet.user.description
+                                            p=tweet.user.location
+                                            p=tweet.user.url
+                                            p=tweet.user.followers_count
+                                            p=tweet.user.profile_image_url
+                                        div *** FAVOURITES ***
+                                            p=tweet.favorite_count
+                                            p=tweet.retweet_count
 
         footer
             script(src=`../${vendorBundle}`, type="text/javascript")
