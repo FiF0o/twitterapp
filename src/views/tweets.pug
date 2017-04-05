@@ -8,16 +8,17 @@ html(lang='en')
     body
         section(id="search_tweets")
             // send GET req on /tweets route
-            form(action="/tweets", method="get", id="twitter_form")
-                // name required for req.query not to be empty - getting the query object from the form
-                label(for="twitter")
-                    input#twitter(type="search", name="q" placeholder="Search tweets...")
-                label(for="count")
-                    select#count(type="select" name="count" class="form-control")
-                        option(value=10) 10
-                        option(value=20) 20
-                        option(value=50) 50
-            button(type="submit", form="twitter_form", value="submit") submit
+            form(action="/tweets", method="get", id="twitter_form" class="form-inline")
+                .form-group
+                    // name required for req.query not to be empty - getting the query object from the form
+                    label(for="twitter")
+                        input#twitter(type="search", name="q", placeholder="Search tweets...", class="form-control")
+                    label(for="count")
+                        select#count(name="count").form-control
+                            option(value=10) 10
+                            option(value=20) 20
+                            option(value=50) 50
+                button(type="submit", form="twitter_form", value="submit").btn.btn-default submit
 
             // error handling - server side
             .container
@@ -42,15 +43,14 @@ html(lang='en')
                     h1 Your tweets
                     .row(id="tweet_results")
                         each tweet in tweetList
-                            .col-md-6
+                            .col-lg-12
                                 .well.well-lg
                                     section.tweet-card
                                         .row
                                             .col-md-7
                                                 h6 tweet
                                                 p=tweet.text
-                                                p=tweet.created_at
-                                                //p=tweet.source
+                                                p.small=tweet.created_at
 
                                             .col-md-5
                                                 h6 profile
@@ -65,41 +65,45 @@ html(lang='en')
                                                         h5
                                                             span.glyphicon.glyphicon-pencil
                                                             span &nbsp;
-                                                            span=tweet.user.description
+                                                            span.small=tweet.user.description
                                                         h5
                                                             span.glyphicon.glyphicon-map-marker
                                                             span &nbsp;
-                                                            span=tweet.user.location
+                                                            span.small=tweet.user.location
 
                                                         p
                                                             span.glyphicon.glyphicon-user
                                                             span &nbsp;
-                                                            span=tweet.user.followers_count
+                                                            span.small=tweet.user.followers_count
 
                                         .row
                                             .col-md-12
                                                 .row
-                                                    .col-md-6
+                                                    .col-md-7
                                                         h6 hastags
-                                                        div
+                                                        ul.list-inline
                                                             if(tweet.entities.hashtags.length > 0)
                                                                 each hashtag in tweet.entities.hashtags
-                                                                    span=`#${hashtag.text}`
-                                                                    span &nbsp;
+                                                                    li
+                                                                        span.small=`#${hashtag.text}`
+                                                                        span &nbsp;
                                                             else
-                                                                p.disabled no hashtag
-                                                    .col-md-6
+                                                                span.small no hashtag
+                                                    .col-md-5
                                                         h6 retweets
                                                         div
                                                             span
                                                                 span.glyphicon.glyphicon-star
                                                                 span &nbsp;
-                                                                span=tweet.favorite_count
+                                                                span.small=tweet.favorite_count
                                                             span(style="margin-left: 1em;")
                                                                 span.glyphicon.glyphicon-retweet
                                                                 span &nbsp;
-                                                                span=tweet.retweet_count
+                                                                span.small=tweet.retweet_count
+                        button load more
 
         footer
+            script.
+                console.log('placeholder script')
             script(src=`../${vendorBundle}`, type="text/javascript")
             script(src=`../${jsBundle}`, type="text/javascript")

@@ -47,7 +47,11 @@ router.get('/', (req, res, next) => {
         var tweets = JSON.parse(data)
         // parses txt data from twitter and getting its statuses array
         var tweetList = tweets.statuses
-        console.log('tweetList: \n', tweetList)
+
+        // gets the last tweet id to pass it in the since_id qs for load more - client side
+        var TWEET_CURSOR = tweets.statuses[tweets.statuses.length-1].id_str
+        res.app.set('TWEET_CURSOR', TWEET_CURSOR)
+
         res.render('tweets', { jsBundle, cssBundle, vendorBundle, tweetList })
       })
       .catch(error => {
