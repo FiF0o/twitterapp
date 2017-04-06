@@ -7,7 +7,7 @@ var path = require('path');
 var session = require('express-session');
 
 var twitterAPI = require('./src/twitterAPI');
-var token = require('./token');
+var token = require('./config/token');
 
 
 /** routes **/
@@ -50,7 +50,7 @@ app.use(bodyParser.json());
  * more about OAUTH2 and Twitter API: https://dev.twitter.com/oauth/reference/post/oauth2/token
  * **/
 /* eslint-disable */
-const encodedToken = Buffer.from(`${token.accessToken}:${token.accessTokenSecret}`).toString('base64'); // base64 app token encoding as btoa (browser api) is not supported - needed to the server to consume
+const encodedToken = Buffer.from(`${token.consumerToken}:${token.consumerTokenSecret}`).toString('base64'); // base64 app token encoding as btoa (browser api) is not supported - needed to the server to consume
 // const encodedToken2 = btoa(encodeURIComponent(`${accessToken}:${accessTokenSecret}`));
 const url = 'https://api.twitter.com/oauth2/token';
 

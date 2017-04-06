@@ -55,7 +55,7 @@ html(lang='en')
                                             .col-md-5
                                                 h6 profile
                                                 div.thumbnail
-                                                    img(src=`${tweet.user.profile_image_url}` alt=`${tweet.user.profile_image_url}` width="48" height="48")
+                                                    img(src=`${tweet.user.profile_image_url}` alt=`${tweet.user.profile_image_url}` width="48" height="48").pull-left
                                                     h4
                                                         if(tweet.user.url !== null)
                                                             a(href=`${tweet.user.url}` target="_blank")=tweet.user.name

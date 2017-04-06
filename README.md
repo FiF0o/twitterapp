@@ -28,7 +28,7 @@ Proxy handling OAUTH and Twitter API request is running on node port or `:8889`.
 
 ### Want your own token to extend the app?
 Register to the twitter API website.</br>
-create a `token.js` file at the root dir exposing your App token `accessToken` and `accessTokenSecret` keys from your Twitter API:</br>
+create a `token.js` file in the `config` dir exposing your App token `accessToken` and `accessTokenSecret` keys from your Twitter API:</br>
 ```</br>
 module.exports = {
     accessToken: "<YOUR_OWN_ACCESS_TOKEN>"

@@ -74,6 +74,7 @@
     "node-sass": "4.5.0",
     "nodemon": "1.11.0",
     "now": "4.7.1",
+    "oauth": "0.9.15",
     "path": "0.12.7",
     "pug": "2.0.0-beta11",
     "pug-cli": "1.0.0-alpha6",
@@ -82,6 +83,7 @@
     "sass-loader": "6.0.2",
     "style-loader": "0.13.1",
     "url": "0.11.0",
+    "util": "0.10.3",
     "webpack-manifest-plugin": "1.1.0",
     "xmlhttprequest": "1.8.0"
   }

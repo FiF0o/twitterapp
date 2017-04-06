@@ -5,7 +5,8 @@ const router = require('express').Router();
 import url from 'url';
 import { readFileSync } from 'jsonfile';
 
-import request from '../twitterService';
+import requestService from '../twitterService';
+import { mentions } from '../services/twitter'
 
 
 const manifestPath = `${process.cwd()}/public/build-manifest.json`;
@@ -41,12 +42,16 @@ router.get('/', (req, res, next) => {
       // body: `${qs}`,
     };
 
-    return request(reqTwitter)
+    return requestService(reqTwitter)
       .then( data => {
         // parse data
         var tweets = JSON.parse(data)
         // parses txt data from twitter and getting its statuses array
         var tweetList = tweets.statuses
+
+        // gets q qs param to be passed in the proxy to construct the url
+        var Q_PARAMS = req.query.q
+        res.app.set('Q_PARAMS', Q_PARAMS)
 
         // gets the last tweet id to pass it in the since_id qs for load more - client side
         var TWEET_CURSOR = tweets.statuses[tweets.statuses.length-1].id_str
@@ -64,6 +69,9 @@ router.get('/', (req, res, next) => {
   }
 
 });
+
+// proxy for client side
+router.get('/proxy', mentions)
 
 
 module.exports = router;

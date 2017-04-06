@@ -8,7 +8,7 @@ import { XMLHttpRequest } from 'xmlhttprequest';
  * @param obj
  * @returns {Promise}
  */
-const request = obj => (
+const requestService = obj => (
   // creates XMLHTTPRequest - headers, body
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -31,4 +31,4 @@ const request = obj => (
   })
 );
 
-export default request;
+export default requestService;
