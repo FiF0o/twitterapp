@@ -4,9 +4,9 @@
 var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ManifestPlugin = require('webpack-manifest-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
@@ -27,8 +27,8 @@ const PORT = process.env.PORT || "8888";
 //     loader: {}
 // });
 
-const extractCSS = new ExtractTextPlugin({
-  filename: "style.css",
+const extractSass = new ExtractTextPlugin({
+  filename: "[name].[hash].css",
   allChunks: true
 });
 
@@ -40,6 +40,20 @@ loaders.push({
     {loader: 'raw-loader'},
     {loader: 'pug-html-loader'}
     ]
+});
+
+loaders.push({
+  rules: [{
+    test: /\.scss$/,
+    loader: extractSass.extract({
+      use: [{
+        loader: "css-loader"
+      }, {
+        loader: "sass-loader"
+      }],
+      fallback: "style-loader"
+    })
+  }]
 });
 
 
@@ -54,7 +68,7 @@ module.exports = {
 	output: {
 		publicPath: '/',
 		path: path.join(__dirname, 'public'),
-		filename: '[name].js'
+		filename: '[name].[hash].js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
@@ -82,23 +96,15 @@ module.exports = {
 	plugins: [
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-    extractCSS,
 		new DashboardPlugin(),
-		new HtmlWebpackPlugin({
-			template: './src/views/index.pug',
-			files: {
-				style: ['style.css'],
-				js: [ 'bundle.js'],
-        vendors: ['vendors.js']
-			}
-		}),
     // Provides jQuery on global scope
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-    }),
+    extractSass,
+    new ManifestPlugin({
+      fileName: 'build-manifest.json'
+    })
 	]
 };

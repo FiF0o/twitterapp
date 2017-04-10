@@ -12,9 +12,25 @@ import Greet from './greet';
 //   .then(data => console.log(data))
 //   .catch(error => console.log(error));
 
-$('#toto').click(() => {
-  console.log(this.href);
-});
-
 Greet('You!');
+console.log('hi')
 
+var $button = $('button#load-more')
+var $container = $('#extra-tweets')
+
+$button.on('click', function() {
+  window.fetch('http://localhost:8889/tweets/proxy')
+    .then(function(response) {
+      // getting json obj from the promise
+      return response.json()
+    })
+    .then(function(response) {
+      // resolving the promise
+      console.log(response)
+    })
+    .catch(function(err){
+      console.log(err)
+    })
+})
+
+console.log('end')

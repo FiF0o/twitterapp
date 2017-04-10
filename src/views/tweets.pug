@@ -3,7 +3,7 @@ html(lang='en')
     head
         meta(charset='utf-8')
         title Twitter App
-        link(rel="stylesheet", type="text/css", href=`../${cssBundle}`)
+        link(rel="stylesheet", type="text/css", href=cssBundle)
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         section(id="search_tweets")
@@ -107,28 +107,5 @@ html(lang='en')
                         button#load-more load more
 
         footer
-            //TODO replace with bundle
-            script(src="http://code.jquery.com/jquery-2.2.4.min.js",
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=",
-            crossorigin="anonymous")
-            script.
-                var $button = $('button#load-more')
-                var $container = $('#extra-tweets')
-
-                $button.on('click', function() {
-                    window.fetch('http://localhost:8889/tweets/proxy')
-                        .then(function(response) {
-                            // getting json obj from the promise
-                            return response.json()
-                        })
-                        .then(function(response) {
-                            // resolving the promise
-                            console.log(response)
-                        })
-                        .catch(function(err){
-                            console.log(err)
-                        })
-                })
-
-            //script(src=`../${vendorBundle}`, type="text/javascript")
-            //script(src=`../${jsBundle}`, type="text/javascript")
+            script(src=vendorBundle, type="text/javascript")
+            script(src=jsBundle, type="text/javascript")

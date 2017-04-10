@@ -4,14 +4,12 @@
 var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
-// var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
 
-// not generating css file...
 const extractSass = new ExtractTextPlugin({
-  filename: "[name].[chunkhash].css",
+  filename: "[name].[hash].css",
   disable: process.env.NODE_ENV === "development",
   allChunks: true
 });
@@ -59,7 +57,7 @@ module.exports = {
 	output: {
 		publicPath: '/',
 		path: path.join(__dirname, 'public'),
-		filename: '[name].[chunkhash].js'
+		filename: '[name].[hash].js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
@@ -77,20 +75,21 @@ module.exports = {
 				NODE_ENV: '"production"'
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false,
-				screw_ie8: true,
-				drop_console: true,
-				drop_debugger: true
-			}
-		}),
+    //TODO IMPORTANT Fix break js bundle
+		// new webpack.optimize.UglifyJsPlugin({
+		// 	compress: {
+		// 		warnings: false,
+		// 		screw_ie8: true,
+		// 		drop_console: true,
+		// 		drop_debugger: true
+		// 	}
+		// }),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		/*new HtmlWebpackPlugin({
 			template: './src/views/index.pug',
 			files: {
-				style: ['[name].[chunkhash].css'], // will be css.hashkey.css (entry point)
-				js: [ '[name].[chunkhash].js'] // will be app.hashkey.js & vendor.hashley.js (entry point)
+				style: ['[name].[hash].css'], // will be css.hashkey.css (entry point)
+				js: [ '[name].[hash].js'] // will be app.hashkey.js & vendor.hashley.js (entry point)
 			}
 		}),*/
     // Provides jQuery on global scope can be called using $ or jQuery no need to do scope scope binding
@@ -101,10 +100,6 @@ module.exports = {
     }),
     // creates CSS file
     extractSass,
-    // creates additional bundle containing vendors files as an entry
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-    }),
     new ManifestPlugin({
       fileName: 'build-manifest.json'
     })

@@ -32,18 +32,18 @@ module.exports = [
 		exclude: /(node_modules|bower_components)/,
 		loader: "url-loader?limit=10000&mimetype=image/png"
 	},
-  {
-    test: /\.scss$/,
-    use: [{
-      loader: "style-loader" // creates style nodes from JS strings
-    }, {
-      loader: "css-loader" // translates CSS into CommonJS
-    }, {
-      loader: "sass-loader", // compiles Sass to CSS
-      // options: {
-        //// includes bootstrap-sass scss when loading
-        // includePath: [path.resolve(__dirname, './node_modules/boostrap-sass/assets/stylesheets/')]
-      // }
-    }]
-  }
+  // {
+  //   test: /\.scss$/,
+  //   use: [{
+  //     loader: "style-loader" // creates style nodes from JS strings
+  //   }, {
+  //     loader: "css-loader" // translates CSS into CommonJS
+  //   }, {
+  //     loader: "sass-loader", // compiles Sass to CSS
+  //     // options: {
+  //       //// includes bootstrap-sass scss when loading
+  //       // includePath: [path.resolve(__dirname, './node_modules/boostrap-sass/assets/stylesheets/')]
+  //     // }
+  //   }]
+  // }
 ];
