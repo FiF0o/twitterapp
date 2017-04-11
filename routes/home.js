@@ -7,17 +7,21 @@ import { readFileSync } from 'jsonfile';
 import { loadScripts } from '../utils/scripts';
 
 
-const manifestPath = `${process.cwd()}/public/build-manifest.json`;
-const manifest = readFileSync(manifestPath);
+// const manifestPath = `${process.cwd()}/public/build-manifest.json`;
+// const manifest = readFileSync(manifestPath);
 
 
-const jsBundle = manifest['bundle.js'];
-const cssBundle = manifest['style.css'];
-const vendorBundle = manifest['vendors.js'];
+// const jsBundle = manifest['bundle.js'];
+// const cssBundle = manifest['style.css'];
+// const vendorBundle = manifest['vendors.js'];
 
 
 router.get('/', loadScripts, (req, res, next) => {
-  res.render('index', { jsBundle,cssBundle, vendorBundle });
+  var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
+  res.render('index',
+    // { jsBundle,cssBundle, vendorBundle }
+    {dev: process.env.NODE, assetsByChunkName}
+    );
 });
 
 

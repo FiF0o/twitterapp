@@ -5,6 +5,10 @@ var Express  = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var session = require('express-session');
+var webpack = require('webpack')
+var webpackHotMiddleware = require('webpack-hot-middleware')
+var webpackMiddleware = require('webpack-dev-middleware')
+var configWebpack = require('./webpack.config')
 
 var twitterAPI = require('./src/twitterAPI');
 var token = require('./config/token');
@@ -37,6 +41,16 @@ app.use(session({
 app.set('views', path.join(__dirname, 'src/views/'));
 app.set('view engine', 'pug');
 app.use(Express.static(path.join(__dirname, 'public/')));
+var compiler = webpack(configWebpack)
+var webpackBuffer = webpackMiddleware(compiler, {
+  publicPath: configWebpack.output.publicPath,
+  contentBase: 'src/',
+  serverSideRender: true,
+  // dashboard
+  stats: {}
+});
+app.use(webpackBuffer);
+app.use(webpackHotMiddleware(compiler));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json

@@ -3,7 +3,7 @@ html(lang='en')
     head
         meta(charset='utf-8')
         title Twitter App
-        link(rel="stylesheet", type="text/css", href=cssBundle)
+        link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         section(id="search_tweets")
@@ -107,5 +107,5 @@ html(lang='en')
                         button#load-more load more
 
         footer
-            script(src=vendorBundle, type="text/javascript")
-            script(src=jsBundle, type="text/javascript")
+            script(src=assetsByChunkName.vendors, type="text/javascript")
+            script(src=assetsByChunkName.bundle, type="text/javascript")

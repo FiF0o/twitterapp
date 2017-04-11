@@ -4,9 +4,14 @@
   "description": "app using twitter api",
   "main": "app.js",
   "scripts": {
+    "start": "npm run dev",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
-    "start": "./node_modules/.bin/babel-node server",
-    "dev": "npm run build & ./node_modules/.bin/babel-node server && open http://localhost:8889",
+    "// prod:build:server": "babel server.js -d public",
+    "// prod:build:assets": "npm run build",
+    "// prod:serve": "node /public/server.js",
+    "// placeholder task for prod": "build + server",
+    "watch:server": "nodemon server --exec babel-node",
+    "dev": "NODE=development npm run watch:server && open http://localhost:8889",
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx src || exit 0",
     "serve:static": "webpack-dev-server --progress --profile --colors",
     "dev:static": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
@@ -41,6 +46,7 @@
     "html-webpack-plugin": "^2.26.0",
     "jquery": "3.1.1",
     "node-sass": "4.5.0",
+    "nodemon": "1.11.0",
     "postcss-loader": "^1.2.2",
     "resolve-url-loader": "2.0.2",
     "sass-loader": "6.0.2",
@@ -49,7 +55,9 @@
     "webpack": "2.2.1",
     "webpack-cleanup-plugin": "^0.4.2",
     "webpack-dashboard": "^0.3.0",
-    "webpack-dev-server": "^2.4.1"
+    "webpack-dev-middleware": "1.10.1",
+    "webpack-dev-server": "^2.4.1",
+    "webpack-hot-middleware": "2.18.0"
   },
   "dependencies": {
     "babel-cli": "6.23.0",

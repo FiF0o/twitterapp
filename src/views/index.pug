@@ -3,7 +3,8 @@ html(lang='en')
     head
         meta(charset='utf-8')
         title Twitter App
-        link(rel="stylesheet", type="text/css", href=cssBundle)
+        //link(rel="stylesheet", type="text/css", href=cssBundle)
+        link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         .container
@@ -11,8 +12,16 @@ html(lang='en')
           p=data
           a(href="/tweets" id="toto") go to tweets
         footer
-            //script(src=`${vendorBundle}`, type="text/javascript")
-            //script(src=`${vendorBundle}`, type="text/javascript")
-            script(src=jsBundle, type="text/javascript")
-            script(src=vendorBundle, type="text/javascript")
+            script(src=assetsByChunkName.vendors, type="text/javascript")
+            script(src=assetsByChunkName.bundle, type="text/javascript")
+            //if !dev
+            //    script(src=assetsByChunkName.bundle[0], type="text/javascript")
+            //    script(src=assetsByChunkName.bundle[1], type="text/javascript")
+            //
+            //else
+            //    script(src=assetsByChunkName.bundle, type="text/javascript")
 
+            //script(src=`${vendorBundle}`, type="text/javascript")
+            //script(src=`${vendorBundle}`, type="text/javascript")
+            //script(src=jsBundle, type="text/javascript")
+            //script(src=vendorBundle, type="text/javascript")

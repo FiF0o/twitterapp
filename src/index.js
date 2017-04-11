@@ -13,7 +13,6 @@ import Greet from './greet';
 //   .catch(error => console.log(error));
 
 Greet('You!');
-console.log('hi')
 
 var $button = $('button#load-more')
 var $container = $('#extra-tweets')
@@ -33,4 +32,5 @@ $button.on('click', function() {
     })
 })
 
-console.log('end')
+console.log('bundle')
+console.log('bundle')

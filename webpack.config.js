@@ -7,6 +7,8 @@ var loaders = require('./webpack.loaders');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+// var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
+var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr';
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
@@ -60,7 +62,7 @@ loaders.push({
 module.exports = {
 	entry: {
     // 'react-hot-loader/patch',
-    bundle: './src/index.js', // your app's entry point
+    bundle: ['./src/index.js', hotMiddlewareScript], // your app's entry point
     style: './src/sass/main.scss',
     vendors: ['jquery', 'bootstrap'],
   },
@@ -94,8 +96,9 @@ module.exports = {
 		host: HOST
 	},
 	plugins: [
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
 		new DashboardPlugin(),
     // Provides jQuery on global scope
     new webpack.ProvidePlugin({
@@ -103,8 +106,8 @@ module.exports = {
       jQuery: "jquery"
     }),
     extractSass,
-    new ManifestPlugin({
-      fileName: 'build-manifest.json'
-    })
+    // new ManifestPlugin({
+    //   fileName: 'build-manifest.json'
+    // })
 	]
 };
