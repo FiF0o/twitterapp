@@ -6,9 +6,10 @@
 
 import $ from 'jquery';
 import Greet from './greet';
-import tooltip from 'bootstrap/js/tooltip'
-import popover from 'bootstrap/js/popover'
 // import { GetTweets } from './twitterAPI';
+import { popoverControl } from './controls/popover'
+import { ValidateText } from './client-utils/dataValidation'
+
 
 // GetTweets()
 //   .then(data => console.log(data))
@@ -118,37 +119,23 @@ $button.on('click', function() {
         trigger: 'manual',
         html: 'true',
         title: `<div class="toto">Error</div>`,
-        content: `<div class="class">content object</div>`,
+        content: `<div class="class">Cannot load more tweets!</div>`,
         //override default popover style - injecting title, content within template
         template: `<div class="popover"><div class="arrow"></div><div class="popover-title">title</div><div class="popover-content">content</div></div>`
         // container: '#load-more',
       }
       popoverControl($button, popoverOptions) //popover is called on #load-more
+      //TODO Disable button?
     })
 })
 
-var popoverControl = ($DOMNode, opts) => {
-  var isVisible = false
 
-  var hideAllPopovers = () => {
-    // hides all popover before showing the one we want
-    $('[data-toggle="popover"]').each(function() {
-      $(this).popover('hide');
-    });
-  };
+/** data validation clientside **/
 
-    // hide popovers
-    if(isVisible) hideAllPopovers()
-    // show popover
-    $DOMNode.popover(opts)
-    $DOMNode.popover('show')
-    isVisible = true
+$('input#twitter').blur(() => {
+  var isAlphaNum = $('input#twitter').val()
+  ValidateText(isAlphaNum)
+})
 
-  $(document).on('click', function(e) {
-    hideAllPopovers();
-    isVisible = false;
-  });
-
-}
 
 

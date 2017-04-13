@@ -6,19 +6,21 @@ html(lang='en')
         link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
-        section(id="search_tweets")
-            // send GET req on /tweets route
-            form(action="/tweets", method="get", id="twitter_form" class="form-inline")
-                .form-group
-                    // name required for req.query not to be empty - getting the query object from the form
-                    label(for="twitter")
-                        input#twitter(type="search", name="q", placeholder="Search tweets...", class="form-control")
-                    label(for="count")
-                        select#count(name="count").form-control
-                            option(value=10) 10
-                            option(value=20) 20
-                            option(value=50) 50
-                button(type="submit", form="twitter_form", value="submit").btn.btn-default submit
+        .row
+            .col-md-12.text-center
+                section(id="search_tweets")
+                    // send GET req on /tweets route
+                    form(action="/tweets", method="get", id="twitter_form" class="form-inline")
+                        .form-group
+                            // name required for req.query not to be empty - getting the query object from the form
+                            label(for="twitter")
+                                input#twitter(type="search", name="q", placeholder="Search tweets...", class="form-control" data-toggle="popover")
+                        label(for="count")
+                            select#count(name="count").form-control
+                                option(value=10) 10
+                                option(value=20) 20
+                                option(value=50) 50
+                        button(type="submit", form="twitter_form", value="submit").btn.btn-primary submit
 
             // error handling - server side
             .container
