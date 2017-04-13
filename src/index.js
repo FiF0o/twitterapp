@@ -6,6 +6,8 @@
 
 import $ from 'jquery';
 import Greet from './greet';
+import tooltip from 'bootstrap/js/tooltip'
+import popover from 'bootstrap/js/popover'
 // import { GetTweets } from './twitterAPI';
 
 // GetTweets()
@@ -25,7 +27,13 @@ $button.on('click', function() {
     })
     .then(function(response) {
       // resolving the promise
-      var statuses = response.statuses
+
+      // debug
+      // throw new Error('blabla debug')
+
+      var statuses = response.tweetsChunk.statuses
+      var lastTweet = response.NEW_TWEET_CURSOR
+
       $container.append(
         // returns a single string injected in the dom
         statuses.reduce((acc, tweet) => {
@@ -103,6 +111,44 @@ $button.on('click', function() {
     })
     .catch(function(err){
       console.error(err)
+      var popoverOptions = {
+        animation: true,
+        placement: 'top',
+        delay: 500,
+        trigger: 'manual',
+        html: 'true',
+        title: `<div class="toto">Error</div>`,
+        content: `<div class="class">content object</div>`,
+        //override default popover style - injecting title, content within template
+        template: `<div class="popover"><div class="arrow"></div><div class="popover-title">title</div><div class="popover-content">content</div></div>`
+        // container: '#load-more',
+      }
+      popoverControl($button, popoverOptions) //popover is called on #load-more
     })
 })
+
+var popoverControl = ($DOMNode, opts) => {
+  var isVisible = false
+
+  var hideAllPopovers = () => {
+    // hides all popover before showing the one we want
+    $('[data-toggle="popover"]').each(function() {
+      $(this).popover('hide');
+    });
+  };
+
+    // hide popovers
+    if(isVisible) hideAllPopovers()
+    // show popover
+    $DOMNode.popover(opts)
+    $DOMNode.popover('show')
+    isVisible = true
+
+  $(document).on('click', function(e) {
+    hideAllPopovers();
+    isVisible = false;
+  });
+
+}
+
 

@@ -100,12 +100,10 @@ html(lang='en')
                                                                 span.glyphicon.glyphicon-retweet
                                                                 span &nbsp;
                                                                 span.small=tweet.retweet_count
-
-                        .row
-                            .col-md-12#extra-tweets
+                        .col-md-12#extra-tweets
                         .row
                             .col-md-12.text-center
-                                button.btn-lg.btn-primary#load-more load more
+                                button(data-toggle="popover").btn-lg.btn-primary#load-more load more
 
         footer
             script(src=assetsByChunkName.vendors, type="text/javascript")

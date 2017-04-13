@@ -22,7 +22,10 @@ exports.mentions = (req, res) => {
       // get the new cursor
       var NEW_TWEET_CURSOR = tweetsChunk.statuses[tweetsChunk.statuses.length-1].id_str
       res.app.set('TWEET_CURSOR', NEW_TWEET_CURSOR)
-      res.status(200).send(tweetsChunk)
+      res.status(200).send({tweetsChunk, NEW_TWEET_CURSOR})
     })
-    .catch((err) => console.log('err:', err))
+    .catch((err) => {
+      console.log('err:', err)
+      res.status(404).send(err)
+  })
 }
