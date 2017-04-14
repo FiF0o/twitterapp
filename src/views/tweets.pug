@@ -6,107 +6,110 @@ html(lang='en')
         link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
-        .row
-            .col-md-12.text-center
-                section(id="search_tweets")
-                    // send GET req on /tweets route
-                    form(action="/tweets", method="get", id="twitter_form" class="form-inline")
-                        .form-group
-                            // name required for req.query not to be empty - getting the query object from the form
-                            label(for="twitter")
+        .container
+            .navbar.navbar-inverse.navbar-fixed-top
+                .col-md-12.text-center
+                    section(id="search_tweets")
+                        // send GET req on /tweets route
+                        form(action="/tweets", method="get", id="twitter_form" class="form-inline")
+                            .form-group
+                                // name required for req.query not to be empty - getting the query object from the form
+                                label(for="twitter")
                                 input#twitter(type="search", name="q", placeholder="Search tweets...", class="form-control" data-toggle="popover")
-                        label(for="count")
-                            select#count(name="count").form-control
-                                option(value=10) 10
-                                option(value=20) 20
-                                option(value=50) 50
-                        button(type="submit", form="twitter_form", value="submit").btn.btn-primary submit
+                            .form-group
+                                label(for="count")
+                                select#count(name="count").form-control
+                                    option(value=10) 10
+                                    option(value=20) 20
+                                    option(value=50) 50
+                            button(type="submit", form="twitter_form", value="submit").btn.btn-primary submit
 
             // error handling - server side
-            .container
-                if(error)
-                    section(id="error_server")
+            section.tweets
+                .row
+                    if(error)
+                        section(id="error_server")
+                            .row.col-md-12
+                                h1 There was an error
+                                h2=error
+
+                    // undefined here so user must search for tweets - no query params
+                    if !tweetList
+                        section(id="error_query")
+                            .row.col-md-12
+                                h1="search for tweets"
+
+                    else if tweetList.length <= 0
                         .row.col-md-12
-                            h1 There was an error
-                            h2=error
+                            section(id="error_no_tweets")
+                                h1="not tweets founds :("
 
-                // undefined here so user must search for tweets - no query params
-                if !tweetList
-                    section(id="error_query")
-                        .row.col-md-12
-                            h1="search for tweets"
+                    else
+                        h1 Your tweets
+                        .row(id="tweet_results")
+                            each tweet in tweetList
+                                .col-lg-12
+                                    .well.well-lg
+                                        section.tweet-card
+                                            .row
+                                                .col-md-7
+                                                    h6 tweet
+                                                    p=tweet.text
+                                                    p.small=tweet.created_at
 
-                else if tweetList.length <= 0
-                    .row.col-md-12
-                        section(id="error_no_tweets")
-                            h1="not tweets founds :("
-
-                else
-                    h1 Your tweets
-                    .row(id="tweet_results")
-                        each tweet in tweetList
-                            .col-lg-12
-                                .well.well-lg
-                                    section.tweet-card
-                                        .row
-                                            .col-md-7
-                                                h6 tweet
-                                                p=tweet.text
-                                                p.small=tweet.created_at
-
-                                            .col-md-5
-                                                h6 profile
-                                                div.thumbnail
-                                                    img(src=`${tweet.user.profile_image_url}` alt=`${tweet.user.profile_image_url}` width="48" height="48").pull-left
-                                                    h4
-                                                        if(tweet.user.url !== null)
-                                                            a(href=`${tweet.user.url}` target="_blank")=tweet.user.name
-                                                        else
-                                                            span=tweet.user.name
-                                                    div.caption
-                                                        h5
-                                                            span.glyphicon.glyphicon-pencil
-                                                            span &nbsp;
-                                                            span.small=tweet.user.description
-                                                        h5
-                                                            span.glyphicon.glyphicon-map-marker
-                                                            span &nbsp;
-                                                            span.small=tweet.user.location
-
-                                                        p
-                                                            span.glyphicon.glyphicon-user
-                                                            span &nbsp;
-                                                            span.small=tweet.user.followers_count
-
-                                        .row
-                                            .col-md-12
-                                                .row
-                                                    .col-md-7
-                                                        h6 hastags
-                                                        ul.list-inline
-                                                            if(tweet.entities.hashtags.length > 0)
-                                                                each hashtag in tweet.entities.hashtags
-                                                                    li
-                                                                        span.small=`#${hashtag.text}`
-                                                                        span &nbsp;
+                                                .col-md-5
+                                                    h6 profile
+                                                    div.thumbnail
+                                                        img(src=`${tweet.user.profile_image_url}` alt=`${tweet.user.profile_image_url}` width="48" height="48").pull-left
+                                                        h4
+                                                            if(tweet.user.url !== null)
+                                                                a(href=`${tweet.user.url}` target="_blank")=tweet.user.name
                                                             else
-                                                                span.small no hashtag
-                                                    .col-md-5
-                                                        h6 retweets
-                                                        div
-                                                            span
-                                                                span.glyphicon.glyphicon-star
+                                                                span=tweet.user.name
+                                                        div.caption
+                                                            h5
+                                                                span.glyphicon.glyphicon-pencil
                                                                 span &nbsp;
-                                                                span.small=tweet.favorite_count
-                                                            span(style="margin-left: 1em;")
-                                                                span.glyphicon.glyphicon-retweet
+                                                                span.small=tweet.user.description
+                                                            h5
+                                                                span.glyphicon.glyphicon-map-marker
                                                                 span &nbsp;
-                                                                span.small=tweet.retweet_count
-                        .col-md-12#extra-tweets
-                        .row
-                            .col-md-12.text-center
-                                button(data-toggle="popover").btn-lg.btn-primary#load-more load more
+                                                                span.small=tweet.user.location
 
-        footer
-            script(src=assetsByChunkName.vendors, type="text/javascript")
-            script(src=assetsByChunkName.bundle, type="text/javascript")
+                                                            p
+                                                                span.glyphicon.glyphicon-user
+                                                                span &nbsp;
+                                                                span.small=tweet.user.followers_count
+
+                                            .row
+                                                .col-md-12
+                                                    .row
+                                                        .col-md-7
+                                                            h6 hastags
+                                                            ul.list-inline
+                                                                if(tweet.entities.hashtags.length > 0)
+                                                                    each hashtag in tweet.entities.hashtags
+                                                                        li
+                                                                            span.small=`#${hashtag.text}`
+                                                                            span &nbsp;
+                                                                else
+                                                                    span.small no hashtag
+                                                        .col-md-5
+                                                            h6 retweets
+                                                            div
+                                                                span
+                                                                    span.glyphicon.glyphicon-star
+                                                                    span &nbsp;
+                                                                    span.small=tweet.favorite_count
+                                                                span(style="margin-left: 1em;")
+                                                                    span.glyphicon.glyphicon-retweet
+                                                                    span &nbsp;
+                                                                    span.small=tweet.retweet_count
+                            .col-md-12#extra-tweets
+                            .row
+                                .col-md-12.text-center
+                                    button(data-toggle="popover").btn-lg.btn-primary#load-more load more
+
+            footer
+                script(src=assetsByChunkName.vendors, type="text/javascript")
+                script(src=assetsByChunkName.bundle, type="text/javascript")
