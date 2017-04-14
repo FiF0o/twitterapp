@@ -34,6 +34,7 @@ $button.on('click', function() {
 
       var statuses = response.tweetsChunk.statuses
       var lastTweet = response.NEW_TWEET_CURSOR
+      // console.log('statuses: ', statuses)
 
       $container.append(
         // returns a single string injected in the dom
@@ -42,7 +43,7 @@ $button.on('click', function() {
           return acc + (
             `
             <div class="well well-lg">
-              <section class="tweet-card">
+              <section class="tweet-card" data-id="${tweet.id_str}">
                <div class="row">
                 <div class="col-md-7">
                   <p>
@@ -109,6 +110,12 @@ $button.on('click', function() {
         // accumulator as empty string to create the template string buffer
         }, '')
       )
+
+      // scroll to last element of the list
+      $('body').animate({
+        scrollTop: $(`[data-id="${lastTweet}"]`).offset().top
+      }, 1000)
+
     })
     .catch(function(err){
       console.error(err)
