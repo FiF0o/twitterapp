@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "app using twitter api",
   "main": "app.js",
+  "now": {
+    "name": "twitterfeed app",
+    "alias": "twitterfeed"
+  },
   "scripts": {
+    "// env": "npm run env | grep twitterapp && echo '\n\n' && npm run env | grep npm_package && echo 'from shell \n' && printenv",
     "start": "npm run dev",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
     "prod:build:assets": "npm run build",
@@ -11,14 +16,14 @@
     "prod:serve": "npm run prod:build:assets && npm run prod:build:server",
     "// placeholder task for prod": "build + server",
     "watch:server": "nodemon server --exec babel-node",
-    "dev": "NODE=development npm run watch:server && open http://localhost:8889",
+    "dev": "NODE_ENV=development npm run watch:server && open http://localhost:8889",
     "lint": "./node_modules/.bin/eslint --ext js --ext jsx src || exit 0",
     "serve:static": "webpack-dev-server --progress --profile --colors",
     "dev:static": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "now-build": "npm run build",
-    "now-start": "node app.js",
-    "deploy": "./node_modules/.bin/now"
+    "now-build": "webpack --config webpack.production.config.js",
+    "now-start": "NODE_ENV=production babel-node ./server.js",
+    "deploy": "./node_modules/.bin/now -e CONSUMER_TOKEN=@consumertoken -e CONSUMER_TOKEN_SECRET=@consumertokensecret -e ACCESS_KEY=@accesskey -e ACCESS_SECRET=@accesssecret"
   },
   "keywords": [
     "twitter",

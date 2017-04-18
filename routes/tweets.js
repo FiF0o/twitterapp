@@ -11,7 +11,7 @@ import { mentions } from '../services/twitter'
 
 router.get('/', (req, res, next) => {
 
-  const isProd = process.env.NODE_ENV
+  const mode = process.env.NODE_ENV
 
   if (req.query.q) {
 
@@ -50,14 +50,14 @@ router.get('/', (req, res, next) => {
         var TWEET_CURSOR = tweets.statuses[tweets.statuses.length-1].id_str
         res.app.set('TWEET_CURSOR', TWEET_CURSOR)
 
-        if (isProd === 'production') {
+        if (mode === 'production') {
           const manifestPath = `${process.cwd()}/public/build-manifest.json`;
           const manifest = readFileSync(manifestPath);
           const jsBundle = manifest['bundle.js'];
           const cssBundle = manifest['style.css'];
           const vendorBundle = manifest['vendors.js'];
 
-          res.render('tweets', {env: isProd, jsBundle, cssBundle, vendorBundle, tweetList})
+          res.render('tweets', {env: mode, jsBundle, cssBundle, vendorBundle, tweetList})
         }
         else {
           var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
@@ -73,13 +73,13 @@ router.get('/', (req, res, next) => {
 
     // route without params
   } else {
-      if (isProd === 'production') {
+      if (mode === 'production') {
         const manifestPath = `${process.cwd()}/public/build-manifest.json`;
         const manifest = readFileSync(manifestPath);
         const jsBundle = manifest['bundle.js'];
         const cssBundle = manifest['style.css'];
         const vendorBundle = manifest['vendors.js'];
-        res.render('tweets', {env: isProd, jsBundle, cssBundle, vendorBundle})
+        res.render('tweets', {env: mode, jsBundle, cssBundle, vendorBundle})
       } else {
         var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
         res.render('tweets', {assetsByChunkName});

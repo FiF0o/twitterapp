@@ -11,7 +11,9 @@ var webpackMiddleware = require('webpack-dev-middleware')
 var configWebpack = require('./webpack.config')
 
 var twitterAPI = require('./src/twitterAPI');
-var token = require('./config/token');
+
+// dev mode, grabs twitter API tokens locally
+if(process.env.NODE_ENV === 'development') var token = require('./config/token');
 
 
 /** routes **/
@@ -28,7 +30,7 @@ var errorHandler = require('./utils/errorHandler');
 /** Globals **/
 // access_token (bearer token type) for future API requests;
 var BEARER_TOKEN;
-var isProd = process.env.NODE_ENV
+var mode = process.env.NODE_ENV
 
 
 var app = Express();
@@ -43,7 +45,7 @@ app.set('views', path.join(__dirname, 'src/views/'));
 app.set('view engine', 'pug');
 app.use(Express.static(path.join(__dirname, 'public/')));
 
-if(!isProd) {
+if(mode === 'development') {
   var compiler = webpack(configWebpack)
   var webpackBuffer = webpackMiddleware(compiler, {
     publicPath: configWebpack.output.publicPath,
@@ -55,6 +57,13 @@ if(!isProd) {
   app.use(webpackBuffer);
   app.use(webpackHotMiddleware(compiler));
 }
+
+// allows cross-origin https -> http...
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+})
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -68,8 +77,12 @@ app.use(bodyParser.json());
  *
  * more about OAUTH2 and Twitter API: https://dev.twitter.com/oauth/reference/post/oauth2/token
  * **/
+// if prod uses env vars instead token.js when deploying (now)
+const consumerToken =  process.env.CONSUMER_TOKEN || token.consumerToken
+const consumerTokenSecret = process.env.CONSUMER_TOKEN_SECRET || token.consumerTokenSecret
+
 /* eslint-disable */
-const encodedToken = Buffer.from(`${token.consumerToken}:${token.consumerTokenSecret}`).toString('base64'); // base64 app token encoding as btoa (browser api) is not supported - needed to the server to consume
+const encodedToken = Buffer.from(`${consumerToken}:${consumerTokenSecret}`).toString('base64'); // base64 app token encoding as btoa (browser api) is not supported - needed to the server to consume
 // const encodedToken2 = btoa(encodeURIComponent(`${accessToken}:${accessTokenSecret}`));
 const url = 'https://api.twitter.com/oauth2/token';
 

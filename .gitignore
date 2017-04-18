@@ -30,3 +30,6 @@ node_modules
 public
 .idea
 config/token.js
+
+# Deploy
+-now.json

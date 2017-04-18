@@ -21,7 +21,8 @@ var $button = $('button#load-more')
 var $container = $('#extra-tweets')
 
 $button.on('click', function() {
-  window.fetch('http://localhost:8889/tweets/proxy')
+  // window.fetch('https://localhost:8889/tweets/proxy')
+  window.fetch('/tweets/proxy')
     .then(function(response) {
       // getting json obj from the promise
       return response.json()
@@ -143,6 +144,3 @@ $('input#twitter').blur(() => {
   var isAlphaNum = $('input#twitter').val()
   ValidateText(isAlphaNum)
 })
-
-
-
