@@ -3,24 +3,19 @@ html(lang='en')
     head
         meta(charset='utf-8')
         title Twitter App
-        //link(rel="stylesheet", type="text/css", href=cssBundle)
-        link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
+        if (env == 'production')
+            link(rel="stylesheet", type="text/css", href=cssBundle)
+        else
+            link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         .container
-          h1 Index page
-          a(href="/tweets" id="toto") go to tweets
+            h1 Index page
+            a(href="/tweets" id="toto") go to tweets
         footer
-            script(src=assetsByChunkName.vendors, type="text/javascript")
-            script(src=assetsByChunkName.bundle, type="text/javascript")
-            //if !dev
-            //    script(src=assetsByChunkName.bundle[0], type="text/javascript")
-            //    script(src=assetsByChunkName.bundle[1], type="text/javascript")
-            //
-            //else
-            //    script(src=assetsByChunkName.bundle, type="text/javascript")
-
-            //script(src=`${vendorBundle}`, type="text/javascript")
-            //script(src=`${vendorBundle}`, type="text/javascript")
-            //script(src=jsBundle, type="text/javascript")
-            //script(src=vendorBundle, type="text/javascript")
+            if(env == 'production')
+                script(src=vendorBundle, type="text/javascript")
+                script(src=jsBundle, type="text/javascript")
+            else
+                script(src=assetsByChunkName.vendors, type="text/javascript")
+                script(src=assetsByChunkName.bundle, type="text/javascript")

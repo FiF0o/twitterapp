@@ -3,7 +3,10 @@ html(lang='en')
     head
         meta(charset='utf-8')
         title Twitter App
-        link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
+        if (env == 'production')
+            link(rel="stylesheet", type="text/css", href=cssBundle)
+        else
+            link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         .container
@@ -111,5 +114,9 @@ html(lang='en')
                                     button(data-toggle="popover").btn-lg.btn-primary#load-more load more
 
             footer
-                script(src=assetsByChunkName.vendors, type="text/javascript")
-                script(src=assetsByChunkName.bundle, type="text/javascript")
+                if(env == 'production')
+                    script(src=vendorBundle, type="text/javascript")
+                    script(src=jsBundle, type="text/javascript")
+                else
+                    script(src=assetsByChunkName.vendors, type="text/javascript")
+                    script(src=assetsByChunkName.bundle, type="text/javascript")

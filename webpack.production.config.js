@@ -76,14 +76,16 @@ module.exports = {
 			}
 		}),
     //TODO IMPORTANT Fix break js bundle
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	compress: {
-		// 		warnings: false,
-		// 		screw_ie8: true,
-		// 		drop_console: true,
-		// 		drop_debugger: true
-		// 	}
-		// }),
+		new webpack.optimize.UglifyJsPlugin({
+
+    // }),
+			compress: {
+				warnings: false,
+				screw_ie8: true,
+				drop_console: true,
+				drop_debugger: true
+			}
+		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		/*new HtmlWebpackPlugin({
 			template: './src/views/index.pug',

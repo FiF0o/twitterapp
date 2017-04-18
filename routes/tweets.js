@@ -9,18 +9,9 @@ import requestService from '../twitterService';
 import { mentions } from '../services/twitter'
 
 
-// const manifestPath = `${process.cwd()}/public/build-manifest.json`;
-// const manifest = readFileSync(manifestPath);
-
-
-// const jsBundle = manifest['bundle.js'];
-// const cssBundle = manifest['style.css'];
-// const vendorBundle = manifest['vendors.js'];
-
-
 router.get('/', (req, res, next) => {
 
-  var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
+  const isProd = process.env.NODE_ENV
 
   if (req.query.q) {
 
@@ -59,15 +50,40 @@ router.get('/', (req, res, next) => {
         var TWEET_CURSOR = tweets.statuses[tweets.statuses.length-1].id_str
         res.app.set('TWEET_CURSOR', TWEET_CURSOR)
 
-        res.render('tweets', { assetsByChunkName, tweetList })
+        if (isProd === 'production') {
+          const manifestPath = `${process.cwd()}/public/build-manifest.json`;
+          const manifest = readFileSync(manifestPath);
+          const jsBundle = manifest['bundle.js'];
+          const cssBundle = manifest['style.css'];
+          const vendorBundle = manifest['vendors.js'];
+
+          res.render('tweets', {env: isProd, jsBundle, cssBundle, vendorBundle, tweetList})
+        }
+        else {
+          var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
+
+          res.render('tweets', { assetsByChunkName, tweetList })
+
+        }
       })
       .catch(error => {
         console.log(error)
         res.render('error', {error})
       });
 
+    // route without params
   } else {
-    res.render('tweets', { assetsByChunkName });
+      if (isProd === 'production') {
+        const manifestPath = `${process.cwd()}/public/build-manifest.json`;
+        const manifest = readFileSync(manifestPath);
+        const jsBundle = manifest['bundle.js'];
+        const cssBundle = manifest['style.css'];
+        const vendorBundle = manifest['vendors.js'];
+        res.render('tweets', {env: isProd, jsBundle, cssBundle, vendorBundle})
+      } else {
+        var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
+        res.render('tweets', {assetsByChunkName});
+      }
   }
 
 });

@@ -28,6 +28,7 @@ var errorHandler = require('./utils/errorHandler');
 /** Globals **/
 // access_token (bearer token type) for future API requests;
 var BEARER_TOKEN;
+var isProd = process.env.NODE_ENV
 
 
 var app = Express();
@@ -41,16 +42,20 @@ app.use(session({
 app.set('views', path.join(__dirname, 'src/views/'));
 app.set('view engine', 'pug');
 app.use(Express.static(path.join(__dirname, 'public/')));
-var compiler = webpack(configWebpack)
-var webpackBuffer = webpackMiddleware(compiler, {
-  publicPath: configWebpack.output.publicPath,
-  contentBase: 'src/',
-  serverSideRender: true,
-  // dashboard
-  stats: {}
-});
-app.use(webpackBuffer);
-app.use(webpackHotMiddleware(compiler));
+
+if(!isProd) {
+  var compiler = webpack(configWebpack)
+  var webpackBuffer = webpackMiddleware(compiler, {
+    publicPath: configWebpack.output.publicPath,
+    contentBase: 'src/',
+    serverSideRender: true,
+    // dashboard
+    stats: {}
+  });
+  app.use(webpackBuffer);
+  app.use(webpackHotMiddleware(compiler));
+}
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
