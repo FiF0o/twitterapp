@@ -1,6 +1,6 @@
 # Twitter app
 
-##(Twitter feed app)[https://twitterapp-vzlhouusqi.now.sh/]
+##[Twitter feed app](https://twitterapp-vzlhouusqi.now.sh/)
 
 Static website using the Twitter API to return a tweet feed.</br>
 We are using `/search/tweets` twitter endpoint - [search/tweets endpoint](https://dev.twitter.com/rest/reference/get/search/tweets).</br>
@@ -48,7 +48,7 @@ module.exports = {
 
 
 ## Deploy
-Deployed with (now)[https://zeit.co/docs]/</br></br>
+Deployed with [now](https://zeit.co/docs/)</br></br>
 `npm run deploy`, and make sure to add your now secret keys - `now secret add <YOUR_4_KEYS>` - before deploying.</br>
 Run `now secret list` to show your secret variables - will be passed in your npm scripts as `@yourkey`.
 
