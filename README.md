@@ -8,7 +8,7 @@ Static assets served on port `:8888` if needed.</br>
 Dev mode:
 </br>
 ```
-`npm run dev`
+npm run dev
 ```
 </br>
 
@@ -43,4 +43,11 @@ module.exports = {
 `npm run lint` to lint your code.</br>
 
 
+## Deploy
+
+
 ## Improvements
+- prod script
+- tests
+- pug js templates compiled on client side
+- switch builds scripts from `webpack` to `gulp`
