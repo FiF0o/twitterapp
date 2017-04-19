@@ -13,7 +13,7 @@ exports.mentions = (req, res) => {
   let url = `${twitterApiBaseUrl}/1.1/search/tweets.json?`
 
   if (Q_PARAMS)     url += `q=${Q_PARAMS}&`
-  if (TWEET_CURSOR) url += `since_id=${TWEET_CURSOR}&`
+  if (TWEET_CURSOR) url += `max_id=${TWEET_CURSOR}&`
   url += `count=${moreTweets}&`
 
   oauth.fetch(url)

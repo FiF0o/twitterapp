@@ -114,8 +114,14 @@ $button.on('click', function() {
 
       // scroll to last element of the list
       $('body').animate({
-        scrollTop: $(`[data-id="${lastTweet}"]`).offset().top
-      }, 1000)
+        scrollTop: $(`[data-id="${lastTweet}"]`).offset().top,
+      }, {
+        duration: 1000,
+        complete: () => {
+          // checks lastTweet id for debugging
+          console.log(lastTweet, ' in CB()')
+        }
+      })
 
     })
     .catch(function(err){

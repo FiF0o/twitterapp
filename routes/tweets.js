@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => {
         var Q_PARAMS = req.query.q
         res.app.set('Q_PARAMS', Q_PARAMS)
 
-        // gets the last tweet id to pass it in the since_id qs for load more - client side
+        // gets the last tweet id to pass it in the max_id qs for load more - client side
         var TWEET_CURSOR = tweets.statuses[tweets.statuses.length-1].id_str
         res.app.set('TWEET_CURSOR', TWEET_CURSOR)
 

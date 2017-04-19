@@ -9,7 +9,6 @@ import { loadScripts } from '../utils/scripts';
 
 router.get('/', loadScripts, (req, res, next) => {
   const mode = process.env.NODE_ENV
-  console.log(mode, 'in / route')
 
   if (mode === 'production') {
     const manifestPath = `${process.cwd()}/public/build-manifest.json`;

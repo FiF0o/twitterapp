@@ -32,4 +32,4 @@ public
 config/token.js
 
 # Deploy
--now.json
+now.json

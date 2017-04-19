@@ -1,6 +1,6 @@
 # Twitter app
 
-##[Twitter feed app](https://twitterapp-vzlhouusqi.now.sh/)
+##[Twitter feed app](https://twitterapp-kxtpaplvot.now.sh)
 
 Static website using the Twitter API to return a tweet feed.</br>
 We are using `/search/tweets` twitter endpoint - [search/tweets endpoint](https://dev.twitter.com/rest/reference/get/search/tweets).</br>
