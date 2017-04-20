@@ -121,6 +121,15 @@ twitterAPI.GetBearerToken(reqBearer)
 app.use('/', home);
 app.use('/tweets', tweets);
 
+// DEBUG - route used to debug proxy template rendering
+app
+  // can't be arsed to create a router, proxy/controller passed as a MW
+  .get('/test', (req, res) => {
+    var assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
+    res.render('parentpage', { assetsByChunkName })
+  })
+  // controller/proxy injecting the template
+  .get('/test/controller', require('./controllers/tweetController').tweetController)
 
 // error handling
 app.use(logErrors);

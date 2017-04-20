@@ -150,3 +150,19 @@ $('input#twitter').blur(() => {
   var isAlphaNum = $('input#twitter').val()
   ValidateText(isAlphaNum)
 })
+
+
+/** section for clientside compiled template **/
+$('#load-template').on('click', () => {
+  window.fetch('/test/controller')
+    .then(function(response) {
+      // getting html fragment
+      return response.text()
+    })
+    .then(function(response) {
+      console.log(response)
+      console.log($('div#appender'))
+      // appends html fragment in parent page
+      $('div#appender').append(response)
+    })
+})

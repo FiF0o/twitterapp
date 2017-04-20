@@ -58,3 +58,7 @@ Run `now secret list` to show your secret variables - will be passed in your npm
 - pug js templates compiled on client side
 - switch builds scripts from `webpack` to `gulp`
 - user sessions
+
+### Notes
+#### Debug:</br>
+In dev mode `/test/controller` route is available to render a pug template serverside via DOM injection on clientside.</br>

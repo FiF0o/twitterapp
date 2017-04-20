@@ -1,0 +1,29 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title Twitter App
+        if (env == 'production')
+            link(rel="stylesheet", type="text/css", href=cssBundle)
+        else
+            link(rel="stylesheet", type="text/css", href=assetsByChunkName.style[1])
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+    body
+        .container
+            section
+                <!-- appends example.pug template(s) here -->
+                div#appender
+            section.tweets
+                .row
+                    .col-md-12#extra-tweets
+                        .row
+                            .col-md-12.text-center
+                                button(data-toggle="popover").btn-lg.btn-primary#load-template load more
+
+            footer
+                if(env == 'production')
+                    script(src=vendorBundle, type="text/javascript")
+                    script(src=jsBundle, type="text/javascript")
+                else
+                    script(src=assetsByChunkName.vendors, type="text/javascript")
+                    script(src=assetsByChunkName.bundle, type="text/javascript")
