@@ -91,8 +91,5 @@ router.get('/', (req, res, next) => {
 // proxy for client side
 router.get('/proxy', mentions)
 
-// other controllers/proxies
-// router.get('/controller', tweetController)
-
 
 module.exports = router;
